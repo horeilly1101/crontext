@@ -1,2 +1,2 @@
 # crontext
-a cron job, for daily motivational texts
+> a cron job, for daily motivational texts
