@@ -1,2 +1,2 @@
 # crontext
-> in development: a cron job, for daily motivational texts
+> IN DEVELOPMENT: a task scheduler, for daily motivational texts
