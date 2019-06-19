@@ -1,15 +1,44 @@
+import logging
 from threading import Thread
-import schedule
+import time
+import sys
 
-def hw():
-	print("hello, world")
+import logging
 
-schedule.every(5).seconds.do(hw)
+# Create a custom logger
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
 
-def thread():
+# Create handler
+c_handler = logging.StreamHandler()
+
+# Create formatter and add it to handler
+c_format = logging.Formatter('%(name)s - %(levelname)s - %(message)s')
+c_handler.setFormatter(c_format)
+
+# Add handler to the logger
+logger.addHandler(c_handler)
+
+def fibonacci():
+	a, b = (0, 1)
 	while True:
-		schedule.run_pending()
+		a, b = (b, a + b)
+		yield a
 
-hw_thread = Thread(target=thread, daemon=True)
-hw_thread.start()
-hw_thread.join()
+fib_gen = fibonacci()
+
+def task():
+	logger.info("I'm alive. Watch fibonacci: {}".format(next(fib_gen)))
+
+def target():
+	while True:
+		time.sleep(1)
+		task()
+try:
+	hw_thread = Thread(target=target, daemon=True)
+	logger.info("Process starting")
+	hw_thread.start()
+	hw_thread.join()
+except KeyboardInterrupt:
+	logger.info("Shutting down threads")
+	sys.exit(1)
