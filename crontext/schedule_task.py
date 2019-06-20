@@ -7,16 +7,6 @@ import sys
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
-# Create handler
-c_handler = logging.StreamHandler()
-
-# Create formatter and add it to handler
-c_format = logging.Formatter('%(name)s - %(levelname)s - %(message)s')
-c_handler.setFormatter(c_format)
-
-# Add handler to the logger
-logger.addHandler(c_handler)
-
 
 def fibonacci():
 	a, b = (0, 1)
@@ -33,6 +23,7 @@ def task():
 
 
 def target():
+	logger.info("Fib thread starting")
 	while True:
 		time.sleep(1)
 		task()
@@ -43,7 +34,6 @@ fib_thread = Thread(target=target, daemon=True)
 
 def _main():
 	try:
-		logger.info("Fib thread starting")
 		fib_thread.start()
 		fib_thread.join()
 
