@@ -3,8 +3,6 @@ from threading import Thread
 import time
 import sys
 
-import logging
-
 # Create a custom logger
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -34,11 +32,18 @@ def target():
 	while True:
 		time.sleep(1)
 		task()
-try:
-	hw_thread = Thread(target=target, daemon=True)
-	logger.info("Process starting")
-	hw_thread.start()
-	hw_thread.join()
-except KeyboardInterrupt:
-	logger.info("Shutting down threads")
-	sys.exit(1)
+
+fib_thread = Thread(target=target, daemon=True)
+
+def _main():
+	try:
+		logger.info("Fib thread starting")
+		fib_thread.start()
+		fib_thread.join()
+
+	except KeyboardInterrupt:
+		logger.info("Fib thread shutting down")
+		sys.exit(1)
+
+if __name__ == "__main__":
+	_main()
