@@ -1,6 +1,7 @@
 """run the server"""
 
 import logging
+from threading import Thread
 from crontext.app import app
 from crontext.schedule_task import fib_thread
 
@@ -19,12 +20,13 @@ c_handler.setFormatter(c_format)
 logger.addHandler(c_handler)
 
 def _main():
-	app.run()
+	logger.info("Fib thread starting")
+	fib_thread.start()
 
 	try:
-		logger.info("Fib thread starting")
-		fib_thread.start()
+		app.run()
 		fib_thread.join()
+
 	except KeyboardInterrupt:
 		logger.info("Fib thread shutting down")
 
