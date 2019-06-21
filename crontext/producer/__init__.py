@@ -2,7 +2,11 @@
 
 import logging
 from threading import Thread
-from flask import Flask
+
+from flask_wtf import FlaskForm
+from wtforms import StringField
+from flask import Flask, render_template
+from wtforms.validators import DataRequired
 
 from crontext import lifo
 
@@ -12,11 +16,21 @@ logger.setLevel(logging.INFO)
 
 _app = Flask(__name__)
 
+_app.secret_key = "asdfghjk"
 
-@_app.route("/")
+
+class TextForm(FlaskForm):
+	text_input = StringField("Input Text", validators=[DataRequired()])
+
+
+@_app.route("/", methods=("GET", "POST"))
 def index():
-	lifo.put("Yo whats up")
-	return "Hello, world"
+	form = TextForm()
+
+	if form.validate_on_submit():
+		lifo.put("user input: {}".format(form.text_input.data))
+
+	return render_template("base.html", form=form)
 
 
 def target():
