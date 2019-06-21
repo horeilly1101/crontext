@@ -2,6 +2,7 @@ import logging
 from threading import Thread
 import time
 import sys
+from crontext import lifo
 
 # Create a custom logger
 logger = logging.getLogger(__name__)
@@ -27,6 +28,7 @@ def target():
 	while True:
 		time.sleep(1)
 		task()
+		logger.info(lifo.get())
 
 
 fib_thread = Thread(target=target, daemon=True)

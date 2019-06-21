@@ -1,4 +1,5 @@
 import logging
+from queue import Queue
 
 # Create a custom logger
 logger = logging.getLogger(__name__)
@@ -13,3 +14,6 @@ c_handler.setFormatter(c_format)
 
 # Add handler to the logger
 logger.addHandler(c_handler)
+
+# create a queue for the messages
+lifo = Queue()

@@ -2,8 +2,8 @@
 
 import sys
 
-from crontext.app import app_thread
-from crontext.schedule_task import fib_thread
+from crontext.producer import app_thread
+from crontext.consumer import fib_thread
 
 
 def _main():
