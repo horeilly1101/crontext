@@ -16,4 +16,4 @@ c_handler.setFormatter(c_format)
 logger.addHandler(c_handler)
 
 # create a queue for the messages
-lifo = Queue()
+fifo = Queue()

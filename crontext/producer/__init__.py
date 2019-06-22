@@ -2,13 +2,15 @@
 
 import logging
 from threading import Thread
+import os
 
 from flask_wtf import FlaskForm
 from wtforms import StringField
 from flask import Flask, render_template
 from wtforms.validators import DataRequired
 
-from crontext import lifo
+from crontext import fifo
+from crontext.message import Message
 
 # Create a custom logger
 logger = logging.getLogger(__name__)
@@ -16,7 +18,8 @@ logger.setLevel(logging.INFO)
 
 _app = Flask(__name__)
 
-_app.secret_key = "asdfghjk"
+# _app.secret_key = os.environ['FLASK_SECRET_KEY']
+_app.secret_key = 'dont-hack-me-pls'
 
 
 class TextForm(FlaskForm):
@@ -28,7 +31,7 @@ def index():
 	form = TextForm()
 
 	if form.validate_on_submit():
-		lifo.put("user input: {}".format(form.text_input.data))
+		fifo.put("user input: {}".format(Message(form.text_input.data)))
 
 	return render_template("base.html", form=form)
 

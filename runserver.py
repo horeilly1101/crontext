@@ -3,10 +3,11 @@
 import sys
 
 from crontext.producer import app_thread
-from crontext.consumer import fib_thread
+from crontext.consumer import Consumer
 
 
 def _main():
+	fib_thread = Consumer()
 	fib_thread.start()
 	app_thread.start()
 
@@ -14,8 +15,8 @@ def _main():
 		fib_thread.join()
 		app_thread.join()
 
-	except KeyboardInterrupt:
-		sys.exit(1)
+	except (KeyboardInterrupt, SystemExit):
+		sys.exit()
 
 
 if __name__ == "__main__":
