@@ -58,8 +58,8 @@ class TextSender(Thread):
 	def run(self) -> None:
 		while True:
 			while datetime.datetime.now() < self.send_time:
-				time.sleep(5)
-				logger.info("{} < {}".format(datetime.datetime.now(), self.send_time))
+				time.sleep(1)
+				logger.info("TextSender is alive")
 
 			with lock:
 				logger.info("val: {}".format(dq.pop_left()))
@@ -76,8 +76,7 @@ class Consumer(Thread):
 		sender.start()
 
 		while True:
-			time.sleep(1)
-			logger.info("I'm alive. Watch fibonacci: {}".format(next(fib_gen)))
+			logger.info("Consumer is alive. Watch fibonacci: {}".format(next(fib_gen)))
 
 			message = fifo.get()
 			logger.info(message)
