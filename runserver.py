@@ -2,8 +2,8 @@
 
 import sys
 
-from crontext.producer import app_thread
-from crontext.consumer import Consumer
+from crontext.server import app_thread
+from crontext.text_daemon import Consumer
 
 
 def _main():
