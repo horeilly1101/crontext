@@ -3,6 +3,6 @@
 
 ## Design
 
-Below is the current design of the system.
+Below is the current (planned) design of the system.
 
 ![dashboard](images/crontext-design.png)
