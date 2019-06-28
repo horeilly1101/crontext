@@ -30,6 +30,8 @@ def log_and_put(q):
 
 
 class TextDaemon(Thread):
+	"""A daemon thread that sends a text message once a day, every day."""
+
 	def __init__(self, server_to_text, start_date_time, period):
 		super().__init__(daemon=True)
 		self.server_to_text = server_to_text
