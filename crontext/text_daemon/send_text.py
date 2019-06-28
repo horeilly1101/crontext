@@ -19,7 +19,7 @@ from_number = os.environ['TWILIO_FROM_NUMBER']
 to_number = os.environ['TWILIO_TO_NUMBER']
 
 
-def send_text(text_message: str) -> str:
+def send_text(text_message: str) -> "MessageInstance":
 	"""
 	Send the input text message to the specified number, using the Twilio API.
 
@@ -35,4 +35,4 @@ def send_text(text_message: str) -> str:
 			to=to_number
 		)
 
-	return message.sid
+	return message
