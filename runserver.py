@@ -1,23 +1,29 @@
 """run the server"""
 
 import sys
+import datetime
 
-from crontext.server import app_thread
-from crontext.text_daemon import Consumer
+from crontext.server import AppThread
+from crontext.text_daemon import TextDaemon
+from crontext.safe_queue import SafeQueue
 
 
 def _main():
-	fib_thread = Consumer()
-	fib_thread.start()
-	app_thread.start()
+    app_thread = AppThread()
+    fib_thread = TextDaemon(app_thread.server_to_text,
+                            datetime.datetime.now() + datetime.timedelta(seconds=30),
+                            30)
 
-	try:
-		fib_thread.join()
-		app_thread.join()
+    fib_thread.start()
+    app_thread.start()
 
-	except (KeyboardInterrupt, SystemExit):
-		sys.exit()
+    try:
+        fib_thread.join()
+        app_thread.join()
+
+    except (KeyboardInterrupt, SystemExit):
+        sys.exit()
 
 
 if __name__ == "__main__":
-	_main()
+    _main()

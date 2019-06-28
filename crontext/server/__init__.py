@@ -2,15 +2,14 @@
 
 import logging
 from threading import Thread
-import os
 
 from flask_wtf import FlaskForm
 from wtforms import StringField
 from flask import Flask, render_template
 from wtforms.validators import DataRequired
 
-from crontext import fifo
 from crontext.message import Message
+from crontext.safe_queue import SafeQueue
 
 # Create a custom logger
 logger = logging.getLogger(__name__)
@@ -26,24 +25,24 @@ class TextForm(FlaskForm):
 	text_input = StringField("Input Text", validators=[DataRequired()])
 
 
+server_to_text = SafeQueue()
+
+
 @_app.route("/", methods=("GET", "POST"))
 def index():
 	form = TextForm()
 
 	if form.validate_on_submit():
-		fifo.put("user input: {}".format(Message(form.text_input.data)))
+		server_to_text.put("{}".format(Message(form.text_input.data)))
 
 	return render_template("base.html", form=form)
 
 
-def target():
-	logger.info("Flask App staring")
-	_app.run(port=5678)
+class AppThread(Thread):
+	def __init__(self):
+		super().__init__(daemon=True)
+		self.server_to_text = server_to_text
 
-
-# put the app in its own thread
-app_thread = Thread(target=target, daemon=True)
-
-if __name__ == "__main__":
-	# run the app
-	_app.run()
+	def run(self) -> None:
+		logger.info("Flask App staring")
+		_app.run(port=5678)

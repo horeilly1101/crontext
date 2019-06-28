@@ -2,6 +2,7 @@
 
 import threading
 from collections import deque
+from copy import copy
 
 
 class SafeQueue:
@@ -18,14 +19,14 @@ class SafeQueue:
 		with self._lock:
 			return self._deque.append(item)
 
-	def empty(self):
+	def is_empty(self):
 		with self._lock:
 			return len(self._deque) == 0
 
 	def get_and(self, func):
-		func(self.get())
+		return func(self.get())
 
-	def get_each_and(self, func):
+	def empty_and(self, func):
 		with self._lock:
-			for _ in self._deque:
-				func(self._deque.pop())
+			for _ in copy(self._deque):
+				self.get_and(func)

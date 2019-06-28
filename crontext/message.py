@@ -1,4 +1,4 @@
-"""define an immutable data structure that can be sent in the queue."""
+"""define a data structure that can be sent in the queue."""
 
 
 class Message:
