@@ -1,0 +1,21 @@
+{
+    "addons": [
+        "heroku-postgresql:hobby-dev"
+    ],
+    "formation": {
+        "web": {
+            "quantity": 1,
+            "size": "free"
+        }
+    },
+    "description": "An awesome judging system for hackathons",
+    "env": {
+        "SECRET_KEY": "randomly-generate-this-before-deploying"
+    },
+    "keywords": [
+        "crontext",
+        "python",
+        "flask"
+    ],
+    "name": "Crontext"
+}
