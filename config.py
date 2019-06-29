@@ -3,18 +3,19 @@ import os
 
 
 class ServerConfig:
-	pass
+	"""Object to keep track of config variables for the server module."""
+	DATABASE_URL = os.environ['DATEBASE_URL']
 
 
 class SchedulerConfig:
-	"""Object to keep track of config variables for the project."""
+	"""Object to keep track of config variables for the scheduler module."""
 	# Your Account Sid and Auth Token from twilio.com/user/account
-	account_sid = os.environ['TWILIO_ACCOUNT_SID']
-	auth_token = os.environ['TWILIO_AUTH_TOKEN']
+	ACCOUNT_SID = os.environ['TWILIO_ACCOUNT_SID']
+	AUTH_TOKEN = os.environ['TWILIO_AUTH_TOKEN']
 
 	# the phone number sending the text message (should be associated with your twilio
 	# account)
-	from_number = os.environ['TWILIO_FROM_NUMBER']
+	FROM_NUMBER = os.environ['TWILIO_FROM_NUMBER']
 
 	# the phone number receiving the text
-	to_number = os.environ['TWILIO_TO_NUMBER']
+	TO_NUMBER = os.environ['TWILIO_TO_NUMBER']

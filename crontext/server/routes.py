@@ -4,8 +4,8 @@ from crontext.message import Message
 from crontext.server import _app, TextForm, server_to_text
 from threading import Lock
 
-send_time_lock = Lock()  # lock to ensure thread safety when mutating send_time
-send_time = None  # storage for the send time
+SEND_TIME_LOCK = Lock()  # lock to ensure thread safety when mutating send_time
+SEND_TIME = None  # storage for the send time
 
 
 @_app.route("/", methods=("GET", "POST"))

@@ -12,10 +12,5 @@
     "env": {
         "SECRET_KEY": "randomly-generate-this-before-deploying"
     },
-    "keywords": [
-        "crontext",
-        "python",
-        "flask"
-    ],
     "name": "Crontext"
 }
