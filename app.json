@@ -8,7 +8,7 @@
             "size": "free"
         }
     },
-    "description": "An awesome judging system for hackathons",
+    "description": "A task scheduler, for daily motivational texts",
     "env": {
         "SECRET_KEY": "randomly-generate-this-before-deploying"
     },
