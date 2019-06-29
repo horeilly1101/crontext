@@ -3,7 +3,7 @@ from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.dialects.postgresql import INTEGER, TEXT, TIMESTAMP
 
-db = SQLAlchemy()  # init the database
+db = SQLAlchemy()  # create the database
 
 
 class TextModel(db.Model):

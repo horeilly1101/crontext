@@ -6,7 +6,7 @@ class Message:
 		self.storage = storage
 
 	def __str__(self):
-		return "{0}(storage={1})".format(self.__name__, self.storage)
+		return "{0}(storage={1})".format(type(self).__name__, self.storage)
 
 
 class TextMessage(Message):

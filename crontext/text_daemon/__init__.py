@@ -4,29 +4,10 @@ import time
 import datetime
 
 from crontext.text_daemon.default_queue import DefaultQueue
-from crontext.text_daemon.send_text import send_text
+# from crontext.text_daemon.send_text import send_text
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
-
-
-def fibonacci():
-	a, b = (0, 1)
-	while True:
-		a, b = (b, a + b)
-		yield a
-
-
-fib_gen = fibonacci()
-
-
-def log_and_put(q):
-	def put(message):
-
-		logger.info("Add to queue: {}".format(message))
-		q.add_right(message)
-
-	return put
 
 
 class TextDaemon(Thread):
@@ -45,11 +26,13 @@ class TextDaemon(Thread):
 		"""Send the next text message in _dq and log necessary information to console."""
 		text_message = self._dq.pop_left()
 
-		# send text and store the returned MessageInstance
-		twilio_message = send_text(text_message)
+		# # send text and store the returned MessageInstance
+		# twilio_message = send_text(text_message)
+		#
+		# logger.info("text sent: {}".format(text_message))
+		# logger.info("sid: {}".format(twilio_message.sid))
 
-		logger.info("text sent: {}".format(text_message))
-		logger.info("sid: {}".format(twilio_message.sid))
+		logger.info(text_message)
 
 	def run(self) -> None:
 		"""Run the TextDaemon thread. This thread runs forever and sends a text message once a day."""
@@ -61,8 +44,8 @@ class TextDaemon(Thread):
 				time.sleep(5)
 
 				# retrieve any messages from the server_to_text queue and respond accordingly
-				self.server_to_text.empty_and(log_and_put(self._dq))
-				logger.info("Text daemon is alive. Watch fibonacci: {}".format(next(fib_gen)))
+				self.server_to_text.remove_all_and(self._dq.add_right)
+				logger.info("Text daemon is alive")
 
 			# send a text message and reset the send_time
 			self._send_text()

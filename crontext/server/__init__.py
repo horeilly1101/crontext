@@ -8,7 +8,7 @@ from flask import Flask
 from crontext.safe_queue import SafeQueue
 
 # Create a custom logger
-from crontext.server.forms import TextForm
+from crontext.server.text_form import TextForm
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -20,6 +20,8 @@ _app.secret_key = 'dont-hack-me-pls'
 
 server_to_text = SafeQueue()
 
+import crontext.server.routes
+
 
 class AppThread(Thread):
 	def __init__(self):
@@ -28,4 +30,4 @@ class AppThread(Thread):
 
 	def run(self) -> None:
 		logger.info("Flask App staring")
-		_app.run(port=5678)
+		_app.run(port=6789)
