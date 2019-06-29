@@ -1,13 +1,11 @@
-import logging
-from threading import Thread
-import time
 import datetime
+import logging
+import time
+from threading import Thread
 
-from crontext.text_daemon.default_queue import DefaultQueue
-# from crontext.text_daemon.send_text import send_text
+from crontext.scheduler.default_queue import DefaultQueue
 
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
+LOGGER = logging.getLogger(__name__)
 
 
 class TextDaemon(Thread):
@@ -26,17 +24,20 @@ class TextDaemon(Thread):
 		"""Send the next text message in _dq and log necessary information to console."""
 		text_message = self._dq.pop_left()
 
+		# ------------------
+		# In development: send a text
+		# ------------------
 		# # send text and store the returned MessageInstance
 		# twilio_message = send_text(text_message)
 		#
-		# logger.info("text sent: {}".format(text_message))
-		# logger.info("sid: {}".format(twilio_message.sid))
+		# LOGGER.info("text sent: {}".format(text_message))
+		# LOGGER.info("sid: {}".format(twilio_message.sid))
 
-		logger.info(text_message)
+		LOGGER.info(text_message)
 
 	def run(self) -> None:
 		"""Run the TextDaemon thread. This thread runs forever and sends a text message once a day."""
-		logger.info("Text daemon thread starting")
+		LOGGER.info("Text daemon thread starting")
 
 		while True:
 
@@ -45,7 +46,7 @@ class TextDaemon(Thread):
 
 				# retrieve any messages from the server_to_text queue and respond accordingly
 				self.server_to_text.remove_all_and(self._dq.add_right)
-				logger.info("Text daemon is alive")
+				LOGGER.info("Text daemon is alive")
 
 			# send a text message and reset the send_time
 			self._send_text()

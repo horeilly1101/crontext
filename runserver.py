@@ -4,8 +4,7 @@ import sys
 import datetime
 
 from crontext.server import AppThread
-from crontext.text_daemon import TextDaemon
-from crontext.safe_queue import SafeQueue
+from crontext.scheduler.text_daemon import TextDaemon
 
 
 def _main():

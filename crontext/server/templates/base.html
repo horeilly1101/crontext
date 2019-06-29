@@ -8,7 +8,7 @@
     <form action="" method="post">
         {{ form.csrf_token }}
         {{ form.text_input.label }} {{ form.text_input }}
-        <input type="submit" value="Submit">
+        {{ form.button }}
     </form>
 </body>
 </html>

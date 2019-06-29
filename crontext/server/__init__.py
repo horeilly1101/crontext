@@ -10,8 +10,8 @@ from crontext.safe_queue import SafeQueue
 # Create a custom logger
 from crontext.server.text_form import TextForm
 
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
+LOGGER = logging.getLogger(__name__)
+LOGGER.setLevel(logging.INFO)
 
 _app = Flask(__name__)
 
@@ -29,5 +29,5 @@ class AppThread(Thread):
 		self.server_to_text = server_to_text
 
 	def run(self) -> None:
-		logger.info("Flask App staring")
+		LOGGER.info("Flask App staring")
 		_app.run(port=6789)
