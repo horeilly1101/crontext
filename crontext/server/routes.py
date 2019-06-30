@@ -1,7 +1,7 @@
-from flask import render_template, Blueprint
+from flask import render_template, Blueprint, current_app
 
 from crontext.message import Message
-from crontext.server import _app, TextForm, _server_to_text
+from crontext.server import TextForm
 from threading import Lock
 
 SEND_TIME_LOCK = Lock()  # lock to ensure thread safety when mutating send_time
@@ -16,6 +16,6 @@ def index():
 	form = TextForm()
 
 	if form.validate_on_submit():
-		_server_to_text.put("{}".format(Message(form.text_input.data)))
+		current_app.extensions["server_to_worker"].put("{}".format(Message(form.text_input.data)))
 
 	return render_template("base.html", form=form)
