@@ -4,7 +4,7 @@ import os
 
 class ServerConfig:
 	"""Object to keep track of config variables for the server module."""
-	SECRET_KEY = os.environ['SECRET_KEY']
+	SECRET_KEY = os.environ['SECRET_KEY'] or "change-me-or-get-hacked"
 
 	# configure the database
 	SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']

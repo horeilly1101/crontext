@@ -5,11 +5,16 @@ import datetime
 
 from crontext.server import AppThread
 from crontext.worker.text_daemon import TextDaemon
+from crontext.safe_queue import SafeQueue
 
 
 def _main():
-    app_thread = AppThread()
-    fib_thread = TextDaemon(app_thread.server_to_text,
+    # create the message channels between the server and the worker
+    server_to_worker = SafeQueue()
+    worker_to_server = SafeQueue()
+
+    app_thread = AppThread(server_to_worker, worker_to_server)
+    fib_thread = TextDaemon(server_to_worker,
                             datetime.datetime.now() + datetime.timedelta(seconds=30),
                             30)
 

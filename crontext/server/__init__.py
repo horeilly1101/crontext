@@ -1,40 +1,52 @@
-"""defines the structure of the main app"""
+"""File that creates and configures the """
 
 import logging
 from threading import Thread
 
 from flask import Flask
 
+from config import ServerConfig
 from crontext.safe_queue import SafeQueue
 from crontext.server.text_form import TextForm
+from crontext.server.routes import server
+from crontext.server.models import db, migrate
 
 # Create a custom logger
 LOGGER = logging.getLogger(__name__)
 LOGGER.setLevel(logging.INFO)
 
-_app = Flask(__name__)
 
-# _app.secret_key = os.environ['FLASK_SECRET_KEY']
-_app.secret_key = 'dont-hack-me-pls'
+def create_app(server_to_worker: SafeQueue, worker_to_server: SafeQueue) -> Flask:
+	"""Application factory to create and configure the server app.
 
-server_to_text = SafeQueue()
+	:param server_to_worker: a channel from the server thread to the worker thread
+	:param worker_to_server: a channel from the worker thread to the server thread
+	"""
+	app = Flask(__name__)
 
-from crontext.server.models import db, migrate
+	# add config variables and blueprint routes
+	app.config.from_object(ServerConfig)
+	app.register_blueprint(server)
 
-db.init_app(_app)
-migrate.init_app(_app)
+	# connect the database
+	db.init_app(app)
+	migrate.init_app(app)
 
-import crontext.server.routes
+	# store the message channels as extensions
+	app.extensions["server_to_worker"] = server_to_worker
+	app.extensions["worker_to_server"] = worker_to_server
+
+	return app
 
 
 class AppThread(Thread):
 	"""Thread that runs the server app."""
-	def __init__(self):
+	def __init__(self, server_to_worker, worker_to_server):
 		"""Initialize the AppThread."""
 		super().__init__(daemon=True)
-		self.server_to_text = server_to_text
+		self._app = create_app(server_to_worker, worker_to_server)
 
 	def run(self) -> None:
 		"""Run the server."""
 		LOGGER.info("Flask App staring")
-		_app.run(port=6789)
+		self._app.run(port=6789)
