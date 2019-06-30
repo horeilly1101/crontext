@@ -3,8 +3,10 @@
 from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.dialects.postgresql import INTEGER, TEXT, TIMESTAMP
+from flask_migrate import Migrate
 
 db = SQLAlchemy()  # create the database
+migrate = Migrate(db)
 
 
 class TextModel(db.Model):

@@ -4,7 +4,11 @@ import os
 
 class ServerConfig:
 	"""Object to keep track of config variables for the server module."""
-	DATABASE_URL = os.environ['DATEBASE_URL']
+	SECRET_KEY = os.environ['SECRET_KEY']
+
+	# configure the database
+	SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
+	SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 
 class WorkerConfig:
