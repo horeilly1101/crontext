@@ -10,6 +10,7 @@ SEND_TIME = None  # storage for the send time
 
 @_app.route("/", methods=("GET", "POST"))
 def index():
+	"""Route for the index page of the server application."""
 	form = TextForm()
 
 	if form.validate_on_submit():

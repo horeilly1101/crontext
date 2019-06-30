@@ -7,8 +7,8 @@ class ServerConfig:
 	DATABASE_URL = os.environ['DATEBASE_URL']
 
 
-class SchedulerConfig:
-	"""Object to keep track of config variables for the scheduler module."""
+class WorkerConfig:
+	"""Object to keep track of config variables for the worker module."""
 	# Your Account Sid and Auth Token from twilio.com/user/account
 	ACCOUNT_SID = os.environ['TWILIO_ACCOUNT_SID']
 	AUTH_TOKEN = os.environ['TWILIO_AUTH_TOKEN']

@@ -3,21 +3,21 @@
 import logging
 from twilio.rest import Client
 
-from config import SchedulerConfig
+from config import WorkerConfig
 
 LOGGER = logging.getLogger(__name__)
 LOGGER.setLevel(logging.INFO)
 
 # Your Account Sid and Auth Token from twilio.com/user/account
-ACCOUNT_SID = SchedulerConfig.ACCOUNT_SID
-AUTH_TOKEN = SchedulerConfig.AUTH_TOKEN
+ACCOUNT_SID = WorkerConfig.ACCOUNT_SID
+AUTH_TOKEN = WorkerConfig.AUTH_TOKEN
 
 # the phone number sending the text message (should be associated with your twilio
 # account)
-FROM_NUMBER = SchedulerConfig.FROM_NUMBER
+FROM_NUMBER = WorkerConfig.FROM_NUMBER
 
 # the phone number receiving the text
-TO_NUMBER = SchedulerConfig.TO_NUMBER
+TO_NUMBER = WorkerConfig.TO_NUMBER
 
 
 def send_text(text_message: str) -> "MessageInstance":

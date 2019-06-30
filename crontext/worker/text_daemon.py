@@ -3,7 +3,7 @@ import logging
 import time
 from threading import Thread
 
-from crontext.scheduler.default_queue import DefaultQueue
+from crontext.worker.default_queue import DefaultQueue
 
 LOGGER = logging.getLogger(__name__)
 

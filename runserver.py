@@ -4,7 +4,7 @@ import sys
 import datetime
 
 from crontext.server import AppThread
-from crontext.scheduler.text_daemon import TextDaemon
+from crontext.worker.text_daemon import TextDaemon
 
 
 def _main():
