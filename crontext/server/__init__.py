@@ -39,14 +39,14 @@ def create_app(server_to_worker: SafeQueue, worker_to_server: SafeQueue) -> Flas
 	return app
 
 
-# class AppThread(Thread):
-# 	"""Thread that runs the server app."""
-# 	def __init__(self, server_to_worker, worker_to_server):
-# 		"""Initialize the AppThread."""
-# 		super().__init__(daemon=True)
-# 		self._app = create_app(server_to_worker, worker_to_server)
-#
-# 	def run(self) -> None:
-# 		"""Run the server."""
-# 		LOGGER.info("Flask App staring")
-# 		self._app.run(port=6789)
+class AppThread(Thread):
+	"""Thread that runs the server app."""
+	def __init__(self, server_to_worker, worker_to_server):
+		"""Initialize the AppThread."""
+		super().__init__(daemon=True)
+		self._app = create_app(server_to_worker, worker_to_server)
+
+	def run(self) -> None:
+		"""Run the server."""
+		LOGGER.info("Flask App staring")
+		self._app.run(port=6789)
