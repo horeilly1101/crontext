@@ -46,7 +46,7 @@ class SafeQueue:
 		"""Remove all items from the queue and apply the input function to each item.
 		:param func: function to be applied to the next item on the queue
 		"""
-		# NOTE: the use of an RLock prevents deadlock and ensure that this is thread safe
+		# NOTE: the use of an RLock prevents deadlock and ensures thread safety
 		with self._lock:
 			for _ in copy(self._deque):
 				self.remove_and(func)
