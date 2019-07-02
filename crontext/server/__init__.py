@@ -50,4 +50,4 @@ class AppThread(Thread):
 	def run(self) -> None:
 		"""Run the server."""
 		LOGGER.info("Flask App staring")
-		self._app.run(port=os.environ["PORT"])
+		self._app.run(host='0.0.0.0', port=os.environ["PORT"])
