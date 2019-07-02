@@ -2,8 +2,9 @@
 
 import sys
 import datetime
+import os
 
-from crontext.server import AppThread
+from crontext.server import create_app
 from crontext.worker.text_daemon import TextDaemon
 from crontext.safe_queue import SafeQueue
 
@@ -13,17 +14,16 @@ def _main():
     server_to_worker = SafeQueue()
     worker_to_server = SafeQueue()
 
-    app = AppThread(server_to_worker, worker_to_server)
-    fib_thread = TextDaemon(server_to_worker,
-                            datetime.datetime.now() + datetime.timedelta(seconds=30),
-                            30)
+    server = create_app(server_to_worker, worker_to_server)
+    worker = TextDaemon(server_to_worker,
+                        datetime.datetime.now() + datetime.timedelta(seconds=30),
+                        30)
 
-    fib_thread.start()
-    app.start()
+    worker.start()
 
     try:
-        fib_thread.join()
-        app.join()
+        server.run(host="0.0.0.0", port=os.environ["PORT"])
+        worker.join()
 
     except (KeyboardInterrupt, SystemExit):
         sys.exit()
