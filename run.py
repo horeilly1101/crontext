@@ -1,4 +1,6 @@
-"""Run the server."""
+"""Run the server for production. (This file is meant to be run when the app is deployed.
+You probably don't want to run it locally. Check out run_dev.py instead.)
+"""
 
 if __name__ == "__main__":
     import os

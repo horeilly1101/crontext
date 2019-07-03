@@ -2,4 +2,9 @@
 
 if __name__ == "__main__":
 	from crontext.server.models import db
-	db.create_all()
+	from crontext.server import create_app
+
+	app = create_app(None, None)
+
+	with app.app_context():
+		db.create_all()
