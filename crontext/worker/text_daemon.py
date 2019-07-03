@@ -2,6 +2,9 @@ import datetime
 import logging
 import time
 from threading import Thread
+import os
+
+import requests
 
 from crontext.worker.default_queue import DefaultQueue
 
@@ -35,6 +38,9 @@ class TextDaemon(Thread):
 
 		LOGGER.info(text_message)
 
+	def _ping_url(self):
+		requests.get(os.environ["APP_URL"])
+
 	def run(self) -> None:
 		"""Run the TextDaemon thread. This thread runs forever and sends a text message once a day."""
 		LOGGER.info("Text daemon thread starting")
@@ -47,6 +53,8 @@ class TextDaemon(Thread):
 				# retrieve any messages from the server_to_text queue and respond accordingly
 				self.server_to_text.remove_all_and(self._dq.add_right)
 				LOGGER.info("Text daemon is alive")
+
+				self._ping_url()
 
 			# send a text message and reset the send_time
 			self._send_text()
