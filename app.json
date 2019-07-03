@@ -14,8 +14,7 @@
         "TWILIO_AUTH_TOKEN": "your_auth_token",
         "TWILIO_FROM_NUMBER": "your_twilio_number",
         "TWILIO_TO_NUMBER": "receiver_number",
-        "SECRET_KEY": "randomly-generate-this-before-deploying",
-        "DATABASE_URL": "postgresql://[user[:password]@][netloc][:port][/dbname]"
+        "SECRET_KEY": "randomly-generate-this-before-deploying"
     },
     "name": "Crontext"
 }

@@ -1,8 +1,6 @@
 """File that creates and configures the """
 
 import logging
-from threading import Thread
-import os
 
 from flask import Flask
 
@@ -38,16 +36,3 @@ def create_app(server_to_worker: SafeQueue, worker_to_server: SafeQueue) -> Flas
 	app.extensions["worker_to_server"] = worker_to_server
 
 	return app
-
-
-class AppThread(Thread):
-	"""Thread that runs the server app."""
-	def __init__(self, server_to_worker, worker_to_server):
-		"""Initialize the AppThread."""
-		super().__init__(daemon=True)
-		self._app = create_app(server_to_worker, worker_to_server)
-
-	def run(self) -> None:
-		"""Run the server."""
-		LOGGER.info("Flask App staring")
-		self._app.run(host='0.0.0.0', port=os.environ["PORT"])
