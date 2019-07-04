@@ -30,12 +30,10 @@ def run_crontext(host: str, port: int) -> None:
 
 	# create the server app and the worker
 	app = create_app(server_to_worker, worker_to_server)
-	worker = TextDaemon(server_to_worker, datetime.datetime.now() + datetime.timedelta(seconds=30), 30)
+	worker = TextDaemon(server_to_worker, worker_to_server, datetime.datetime.now() + datetime.timedelta(seconds=30), 30)
 
 	# star the worker in a background thread
 	worker.start()
-
-	print(host, port)
 
 	try:
 		# run the app and block until both tasks end

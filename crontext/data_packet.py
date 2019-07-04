@@ -1,6 +1,7 @@
 """File that contains DataPacket and extending classes. These classes exist to be
 stable, immutable data structures that can be sent between threads.
 """
+import datetime
 
 
 class DataPacket:
@@ -13,6 +14,12 @@ class DataPacket:
 class TextPacket(DataPacket):
 	def __init__(self, text: str, text_id: int) -> None:
 		self.text = text
+		self.id = text_id
+
+
+class ReceiptPacket(DataPacket):
+	def __init__(self, sent_at: datetime, text_id: id) -> None:
+		self.sent_at = sent_at
 		self.id = text_id
 
 
