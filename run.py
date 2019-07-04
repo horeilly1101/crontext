@@ -3,7 +3,10 @@ You probably don't want to run it locally. Check out run_dev.py instead.)
 """
 
 if __name__ == "__main__":
+    # load environment variables
+    from dotenv import load_dotenv
+    load_dotenv()
+
     import os
     from crontext import run_crontext
-
     run_crontext("0.0.0.0", os.environ["PORT"])

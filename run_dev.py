@@ -3,7 +3,7 @@
 if __name__ == "__main__":
 	# load environment variables
 	from dotenv import load_dotenv
-	load_dotenv()
+	load_dotenv(override=True)
 
 	import os
 	from crontext import run_crontext

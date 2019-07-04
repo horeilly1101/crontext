@@ -35,6 +35,8 @@ def run_crontext(host: str, port: int) -> None:
 	# star the worker in a background thread
 	worker.start()
 
+	print(host, port)
+
 	try:
 		# run the app and block until both tasks end
 		app.run(host=host, port=port)
