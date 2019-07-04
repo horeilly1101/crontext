@@ -1,4 +1,6 @@
-"""File that contains all of the necessary config information for the project"""
+"""File that aggregates together all of the necessary config information for the
+project. NOTE: Do not edit environment variables here. Do that in the .env file.
+"""
 import os
 
 
