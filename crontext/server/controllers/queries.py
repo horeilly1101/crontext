@@ -10,7 +10,9 @@ from crontext.server.models import TextModel
 def store_and_create_message(text_input: str) -> TextPacket:
     """Store the input text message in the database, and return a packet to be
     sent to the worker.
+
     :param text_input: text message input by user
+    :return: TextPacket to be sent to the worker
     """
     # create the model and store it in the database
     text_model = TextModel(message=text_input, created_at=datetime.datetime.now())
@@ -21,8 +23,9 @@ def store_and_create_message(text_input: str) -> TextPacket:
     return TextPacket(text_input, text_model.id)
 
 
-def update_text_model(receipt_packet: ReceiptPacket):
+def update_text_model(receipt_packet: ReceiptPacket) -> None:
     """Update the database once a text message has been sent.
+
     :param receipt_packet: packet sent to the server with information on the
         sent text message.
     """

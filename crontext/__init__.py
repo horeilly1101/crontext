@@ -19,26 +19,26 @@ LOGGER.addHandler(handler)
 
 
 def run_crontext(host: str, port: int) -> None:
-	"""
-	Run the crontext process.
-	:param host: host computer address (e.g. "127.0.0.1")
-	:param port: port the web server will listen on (e.g. 1357)
-	"""
-	# create the message channels between the server and the worker
-	server_to_worker = SafeQueue()
-	worker_to_server = SafeQueue()
+    """
+    Run the crontext process.
+    :param host: host computer address (e.g. "127.0.0.1")
+    :param port: port the web server will listen on (e.g. 1357)
+    """
+    # create the message channels between the server and the worker
+    server_to_worker = SafeQueue()
+    worker_to_server = SafeQueue()
 
-	# create the server app and the worker
-	app = create_app(server_to_worker, worker_to_server)
-	worker = TextDaemon(server_to_worker, worker_to_server, datetime.datetime.now() + datetime.timedelta(seconds=30), 30)
+    # create the server app and the worker
+    app = create_app(server_to_worker, worker_to_server)
+    worker = TextDaemon(server_to_worker, worker_to_server, datetime.datetime.now() + datetime.timedelta(seconds=30), 30)
 
-	# star the worker in a background thread
-	worker.start()
+    # star the worker in a background thread
+    worker.start()
 
-	try:
-		# run the app and block until both tasks end
-		app.run(host=host, port=port)
-		worker.join()
+    try:
+        # run the app and block until both tasks end
+        app.run(host=host, port=port)
+        worker.join()
 
-	except (KeyboardInterrupt, SystemExit):
-		sys.exit()
+    except (KeyboardInterrupt, SystemExit):
+        sys.exit()

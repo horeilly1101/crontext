@@ -15,29 +15,29 @@ LOGGER.setLevel(logging.INFO)
 
 
 def create_app(server_to_worker: SafeQueue, worker_to_server: SafeQueue) -> Flask:
-	"""Application factory to create and configure the server app.
+    """Application factory to create and configure the server app.
 
-	:param server_to_worker: a channel from the server thread to the worker thread
-	:param worker_to_server: a channel from the worker thread to the server thread
-	"""
-	app = Flask(__name__)
+    :param server_to_worker: a channel from the server thread to the worker thread
+    :param worker_to_server: a channel from the worker thread to the server thread
+    """
+    app = Flask(__name__)
 
-	# add config variables
-	app.config.from_object(ServerConfig)
+    # add config variables
+    app.config.from_object(ServerConfig)
 
-	# connect the database
-	db.init_app(app)
-	migrate.init_app(app)
+    # connect the database
+    db.init_app(app)
+    migrate.init_app(app)
 
-	# create db tables, if they don't already exist
-	with app.app_context():
-		db.create_all()
+    # create db tables, if they don't already exist
+    with app.app_context():
+        db.create_all()
 
-	# store the message channels as extensions
-	app.extensions["server_to_worker"] = server_to_worker
-	app.extensions["worker_to_server"] = worker_to_server
+    # store the message channels as extensions
+    app.extensions["server_to_worker"] = server_to_worker
+    app.extensions["worker_to_server"] = worker_to_server
 
-	# add the routes
-	app.register_blueprint(server)
+    # add the routes
+    app.register_blueprint(server)
 
-	return app
+    return app
