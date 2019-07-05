@@ -1,4 +1,4 @@
-
+"""File that contains various routes for the server."""
 
 from flask import render_template, Blueprint, current_app
 from flask_wtf import FlaskForm
@@ -11,6 +11,7 @@ server = Blueprint("server", __name__)
 
 
 class TextForm(FlaskForm):
+	"""Form that allows the user to input a text message to be sent."""
 	text_input = StringField("Input Text", validators=[DataRequired()])
 	button = SubmitField()
 

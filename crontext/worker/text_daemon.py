@@ -4,7 +4,7 @@ import time
 from threading import Thread
 
 from crontext.worker.default_queue import DefaultQueue
-from crontext.data_packet import ReceiptPacket
+from crontext.data_packet import ReceiptPacket, TextPacket
 
 LOGGER = logging.getLogger(__name__)
 
@@ -20,7 +20,7 @@ class TextDaemon(Thread):
 		self.period = period
 
 		# create a queue to store the scheduled text messages
-		self._dq = DefaultQueue(lambda: "DEFAULT ARG")
+		self._dq = DefaultQueue(lambda: TextPacket("DEFAULT ARG", None))
 
 	def _send_text(self) -> None:
 		"""Send the next text message in _dq and log necessary information to console."""
@@ -37,7 +37,7 @@ class TextDaemon(Thread):
 
 		LOGGER.info(text_message)
 
-		# self.worker_to_server.put(ReceiptPacket(datetime.datetime.now(), text_message.id))
+		self.worker_to_server.put(ReceiptPacket(text_message.text, datetime.datetime.now(), text_message.id))
 
 	def run(self) -> None:
 		"""Run the TextDaemon thread. This thread runs forever and sends a text message once a day."""

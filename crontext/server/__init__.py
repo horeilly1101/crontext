@@ -6,8 +6,8 @@ from flask import Flask
 
 from config import ServerConfig
 from crontext.safe_queue import SafeQueue
-from crontext.server.controllers.routes import server, TextForm
 from crontext.server.models import db, migrate
+from crontext.server.controllers.routes import server, TextForm
 
 # Create a custom logger
 LOGGER = logging.getLogger(__name__)
