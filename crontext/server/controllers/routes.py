@@ -5,7 +5,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
 from wtforms.validators import DataRequired
 
-from crontext.server.controllers.queries import store_and_create_message, update_text_model
+from crontext.server.controllers.queries import store_and_create_message, update_text_model, get_text_list
 
 server = Blueprint("server", __name__)
 
@@ -23,12 +23,15 @@ def index():
     server_to_worker = current_app.extensions["server_to_worker"]
     worker_to_server = current_app.extensions["worker_to_server"]
 
+    # receive and handle packets from the worker
     worker_to_server.remove_all_and(update_text_model)
 
     form = TextForm()
 
     if form.validate_on_submit():
+        # store and then send text messages to the worker
         message = store_and_create_message(form.text_input.data)
         server_to_worker.put(message)
 
-    return render_template("base.html", form=form)
+    texts = get_text_list()
+    return render_template("base.html", form=form, texts=texts)

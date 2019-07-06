@@ -19,6 +19,7 @@ def create_app(server_to_worker: SafeQueue, worker_to_server: SafeQueue) -> Flas
 
     :param server_to_worker: a channel from the server thread to the worker thread
     :param worker_to_server: a channel from the worker thread to the server thread
+    :return: flask web app
     """
     app = Flask(__name__)
 

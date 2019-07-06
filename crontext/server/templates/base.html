@@ -5,10 +5,24 @@
     <title>crontext</title>
 </head>
 <body>
+    <h1>Crontext</h1>
     <form action="" method="post">
         {{ form.csrf_token }}
         {{ form.text_input.label }} {{ form.text_input }}
         {{ form.button }}
     </form>
+
+    <table>
+        <tr>
+            <th>Message</th>
+            <th>Created at</th>
+        </tr>
+        {% for text in texts %}
+        <tr>
+            <td>{{ text.message }}</td>
+            <td>{{ text.created_at }}</td>
+        </tr>
+        {% endfor %}
+    </table>
 </body>
 </html>

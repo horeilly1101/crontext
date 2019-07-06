@@ -1,6 +1,9 @@
 """File that contains various database queries and controller functions."""
 
 import datetime
+from typing import List
+
+from sqlalchemy import desc
 
 from crontext.data_packet import TextPacket, ReceiptPacket
 from crontext.server import db
@@ -46,3 +49,11 @@ def update_text_model(receipt_packet: ReceiptPacket) -> None:
         # update the sent at time in the db
         text.sent_at = receipt_packet.sent_at
         db.session.commit()
+
+
+def get_text_list() -> List[TextModel]:
+    """
+    :return: a list of the text models stored in the database, sorted
+        by the date they were created at
+    """
+    return TextModel.query.order_by(desc(TextModel.created_at)).all()
