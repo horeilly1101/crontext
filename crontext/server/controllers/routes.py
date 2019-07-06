@@ -20,7 +20,7 @@ class TextForm(FlaskForm):
 def index():
     """Route for the index page of the server application."""
     # get the message channels
-    safe_channel = current_app.extensions["safe_channel"]
+    safe_channel = current_app.extensions["broker"]
 
     # receive and handle packets from the worker
     safe_channel.remove_all_and(update_text_model)

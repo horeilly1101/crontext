@@ -3,17 +3,17 @@ import logging
 import time
 from threading import Thread
 
-from crontext.safe_channel import SafeChannel
+from crontext.broker import Broker
 from crontext.worker.default_queue import DefaultQueue
 from crontext.data_packet import ReceiptPacket, TextPacket
 
 LOGGER = logging.getLogger(__name__)
 
 
-class TextDaemon(Thread):
+class WorkerDaemon(Thread):
     """A daemon thread that sends a text message once a day, every day."""
 
-    def __init__(self, safe_channel: SafeChannel, start_date_time, period):
+    def __init__(self, safe_channel: Broker, start_date_time, period):
         super().__init__(daemon=True)
         self.safe_channel = safe_channel
         self.send_time = start_date_time
