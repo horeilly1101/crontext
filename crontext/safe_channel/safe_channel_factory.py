@@ -1,6 +1,6 @@
 
-from crontext.safe_queue import SafeQueue
-from crontext.safe_channel import SafeChannel
+from crontext.safe_channel.safe_queue import SafeQueue
+from crontext.safe_channel.safe_channel import SafeChannel
 
 
 class SafeChannelFactory:

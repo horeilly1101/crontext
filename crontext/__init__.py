@@ -4,7 +4,7 @@ import sys
 
 from crontext.server import create_app
 from crontext.worker.text_daemon import TextDaemon
-from crontext.safe_queue import SafeQueue
+from crontext.safe_channel.safe_queue import SafeQueue
 
 # Configure the logger
 LOGGER = logging.getLogger(__name__)

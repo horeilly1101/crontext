@@ -5,7 +5,7 @@ import logging
 from flask import Flask
 
 from config import ServerConfig
-from crontext.safe_queue import SafeQueue
+from crontext.safe_channel.safe_queue import SafeQueue
 from crontext.server.models import db, migrate
 from crontext.server.controllers.routes import server, TextForm
 

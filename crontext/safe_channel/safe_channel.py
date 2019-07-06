@@ -1,5 +1,4 @@
-
-from crontext.safe_queue import SafeQueue
+from crontext import SafeQueue
 
 
 class SafeChannel:

@@ -15,3 +15,7 @@ class TextModel(db.Model):
     message = db.Column(TEXT)  # string text message
     created_at = db.Column(TIMESTAMP, default=datetime.utcnow)
     sent_at = db.Column(TIMESTAMP, default=None)
+
+
+async def fun():
+    pass
