@@ -4,7 +4,7 @@ import sys
 
 from crontext.server import create_app
 from crontext.worker.text_daemon import TextDaemon
-from crontext.safe_channel.safe_queue import SafeQueue
+from crontext.safe_channel import SafeChannelFactory
 
 # Configure the logger
 LOGGER = logging.getLogger(__name__)
@@ -25,12 +25,11 @@ def run_crontext(host: str, port: int) -> None:
     :param port: port the web server will listen on (e.g. 1357)
     """
     # create the message channels between the server and the worker
-    server_to_worker = SafeQueue()
-    worker_to_server = SafeQueue()
+    safe_channel_fac = SafeChannelFactory()
 
     # create the server app and the worker
-    app = create_app(server_to_worker, worker_to_server)
-    worker = TextDaemon(server_to_worker, worker_to_server, datetime.datetime.now() + datetime.timedelta(seconds=30), 30)
+    app = create_app(safe_channel_fac.make_channel1())
+    worker = TextDaemon(safe_channel_fac.make_channel2(), datetime.datetime.now() + datetime.timedelta(seconds=30), 30)
 
     # star the worker in a background thread
     worker.start()

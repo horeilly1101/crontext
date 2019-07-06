@@ -3,6 +3,7 @@ import logging
 import time
 from threading import Thread
 
+from crontext.safe_channel import SafeChannel
 from crontext.worker.default_queue import DefaultQueue
 from crontext.data_packet import ReceiptPacket, TextPacket
 
@@ -12,10 +13,9 @@ LOGGER = logging.getLogger(__name__)
 class TextDaemon(Thread):
     """A daemon thread that sends a text message once a day, every day."""
 
-    def __init__(self, server_to_worker, worker_to_server, start_date_time, period):
+    def __init__(self, safe_channel: SafeChannel, start_date_time, period):
         super().__init__(daemon=True)
-        self.server_to_worker = server_to_worker
-        self.worker_to_server = worker_to_server
+        self.safe_channel = safe_channel
         self.send_time = start_date_time
         self.period = period
 
@@ -37,7 +37,7 @@ class TextDaemon(Thread):
 
         LOGGER.info(text_message)
 
-        self.worker_to_server.put(ReceiptPacket(text_message.text, datetime.datetime.now(), text_message.id))
+        self.safe_channel.put(ReceiptPacket(text_message.text, datetime.datetime.now(), text_message.id))
 
     def run(self) -> None:
         """Run the TextDaemon thread. This thread runs forever and sends a text message once a day."""
@@ -49,7 +49,7 @@ class TextDaemon(Thread):
                 time.sleep(5)
 
                 # retrieve any messages from the server_to_text queue and respond accordingly
-                self.server_to_worker.remove_all_and(self._dq.add_right)
+                self.safe_channel.remove_all_and(self._dq.add_right)
                 LOGGER.info("Text daemon is alive")
 
             # send a text message and reset the send_time

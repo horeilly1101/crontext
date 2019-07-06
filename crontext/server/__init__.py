@@ -5,7 +5,7 @@ import logging
 from flask import Flask
 
 from config import ServerConfig
-from crontext.safe_channel.safe_queue import SafeQueue
+from crontext.safe_channel import SafeChannel
 from crontext.server.models import db, migrate
 from crontext.server.controllers.routes import server, TextForm
 
@@ -14,11 +14,10 @@ LOGGER = logging.getLogger(__name__)
 LOGGER.setLevel(logging.INFO)
 
 
-def create_app(server_to_worker: SafeQueue, worker_to_server: SafeQueue) -> Flask:
+def create_app(safe_channel: SafeChannel) -> Flask:
     """Application factory to create and configure the server app.
 
-    :param server_to_worker: a channel from the server thread to the worker thread
-    :param worker_to_server: a channel from the worker thread to the server thread
+    :param safe_channel: a channel between the server thread and the worker thread
     :return: flask web app
     """
     app = Flask(__name__)
@@ -35,8 +34,7 @@ def create_app(server_to_worker: SafeQueue, worker_to_server: SafeQueue) -> Flas
         db.create_all()
 
     # store the message channels as extensions
-    app.extensions["server_to_worker"] = server_to_worker
-    app.extensions["worker_to_server"] = worker_to_server
+    app.extensions["safe_channel"] = safe_channel
 
     # add the routes
     app.register_blueprint(server)

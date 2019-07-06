@@ -20,18 +20,17 @@ class TextForm(FlaskForm):
 def index():
     """Route for the index page of the server application."""
     # get the message channels
-    server_to_worker = current_app.extensions["server_to_worker"]
-    worker_to_server = current_app.extensions["worker_to_server"]
+    safe_channel = current_app.extensions["safe_channel"]
 
     # receive and handle packets from the worker
-    worker_to_server.remove_all_and(update_text_model)
+    safe_channel.remove_all_and(update_text_model)
 
     form = TextForm()
 
     if form.validate_on_submit():
         # store and then send text messages to the worker
         message = store_and_create_message(form.text_input.data)
-        server_to_worker.put(message)
+        safe_channel.put(message)
 
     texts = get_text_list()
     return render_template("base.html", form=form, texts=texts)
