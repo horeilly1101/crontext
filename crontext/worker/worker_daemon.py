@@ -13,9 +13,9 @@ LOGGER = logging.getLogger(__name__)
 class WorkerDaemon(Thread):
     """A daemon thread that sends a text message once a day, every day."""
 
-    def __init__(self, safe_channel: Broker, start_date_time, period):
+    def __init__(self, broker: Broker, start_date_time, period):
         super().__init__(daemon=True)
-        self.safe_channel = safe_channel
+        self.broker = broker
         self.send_time = start_date_time
         self.period = period
 
@@ -37,7 +37,7 @@ class WorkerDaemon(Thread):
 
         LOGGER.info(text_message)
 
-        self.safe_channel.put(ReceiptPacket(text_message.text, datetime.datetime.now(), text_message.id))
+        self.broker.put(ReceiptPacket(text_message.text, datetime.datetime.now(), text_message.id))
 
     def run(self) -> None:
         """Run the TextDaemon thread. This thread runs forever and sends a text message once a day."""
@@ -49,7 +49,7 @@ class WorkerDaemon(Thread):
                 time.sleep(5)
 
                 # retrieve any messages from the server_to_text queue and respond accordingly
-                self.safe_channel.remove_all_and(self._dq.add_right)
+                self.broker.remove_all_and(self._dq.add_right)
                 LOGGER.info("Text daemon is alive")
 
             # send a text message and reset the send_time

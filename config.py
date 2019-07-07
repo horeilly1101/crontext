@@ -5,7 +5,7 @@ import os
 
 
 class ServerConfig:
-	"""Object to keep track of config variables for the server module."""
+	"""Class to keep track of config variables for the server module."""
 	SECRET_KEY = os.environ['SECRET_KEY']
 
 	# configure the database
@@ -14,7 +14,7 @@ class ServerConfig:
 
 
 class WorkerConfig:
-	"""Object to keep track of config variables for the worker module."""
+	"""Class to keep track of config variables for the worker module."""
 	# Your Account Sid and Auth Token from twilio.com/user/account
 	ACCOUNT_SID = os.environ['TWILIO_ACCOUNT_SID']
 	AUTH_TOKEN = os.environ['TWILIO_AUTH_TOKEN']
@@ -25,3 +25,8 @@ class WorkerConfig:
 
 	# the phone number receiving the text
 	TO_NUMBER = os.environ['TWILIO_TO_NUMBER']
+
+
+class PingDaemonConfig:
+	"""Class to keep track of config variables for the ping daemon."""
+	APP_URL = os.environ['APP_URL']

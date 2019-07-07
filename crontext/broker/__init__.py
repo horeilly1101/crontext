@@ -27,8 +27,8 @@ class BrokerFactory:
         self._queue1 = SafeQueue()
         self._queue2 = SafeQueue()
 
-    def make_channel1(self):
+    def make_endpoint1(self):
         return Broker(self._queue1, self._queue2)
 
-    def make_channel2(self):
+    def make_endpoint2(self):
         return Broker(self._queue2, self._queue1)
