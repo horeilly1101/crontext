@@ -1,5 +1,8 @@
 """File that contains DataPacket and extending classes. These classes exist to be
 stable, immutable data structures that can be sent between threads.
+
+NOTE: The classes in this module comprise the API for how the server and the worker
+interact with each other.
 """
 import datetime
 

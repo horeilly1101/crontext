@@ -9,6 +9,8 @@ from crontext.data_packet import ReceiptPacket, TextPacket
 
 LOGGER = logging.getLogger(__name__)
 
+# SEND_TIME = datetime.time()
+
 
 class WorkerDaemon(Thread):
     """A daemon thread that sends a text message once a day, every day."""

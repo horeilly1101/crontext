@@ -11,7 +11,6 @@ from crontext.server.controllers.routes import server, TextForm
 
 # Create a custom logger
 LOGGER = logging.getLogger(__name__)
-LOGGER.setLevel(logging.INFO)
 
 
 def create_app(broker: Broker) -> Flask:
@@ -33,7 +32,7 @@ def create_app(broker: Broker) -> Flask:
     with app.app_context():
         db.create_all()
 
-    # store the message channels as extensions
+    # store the broker as an extension
     app.extensions["broker"] = broker
 
     # add the routes
