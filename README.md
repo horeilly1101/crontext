@@ -1,5 +1,6 @@
 # crontext
 > IN DEVELOPMENT: a task scheduler, for daily motivational texts
+
 [![Known Vulnerabilities](https://snyk.io//test/github/horeilly1101/crontext/badge.svg?targetFile=requirements.txt)](https://snyk.io//test/github/horeilly1101/crontext?targetFile=requirements.txt)
 
 Crontext is a lightweight daily text message service. Choose a friend and send them a text every morning.
