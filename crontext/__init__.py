@@ -26,13 +26,13 @@ def run_crontext(host: str, port: int) -> None:
     :param port: port the web server will listen on (e.g. 1357)
     """
     # create the message channels between the server and the worker
-    safe_channel_fac = BrokerFactory()
+    broker_fac = BrokerFactory()
 
     # create the server app and the worker
-    app = create_app(safe_channel_fac.make_endpoint1())
-    worker = WorkerDaemon(safe_channel_fac.make_endpoint2(), datetime.datetime.now() + datetime.timedelta(seconds=30), 30)
+    app = create_app(broker_fac.make_endpoint1())
+    worker = WorkerDaemon(broker_fac.make_endpoint2(), datetime.datetime.now() + datetime.timedelta(seconds=30), 30)
 
-    # start the ping daemon
+    # create the ping daemon
     ping = PingDaemon()
 
     # start the worker and ping daemon in background threads

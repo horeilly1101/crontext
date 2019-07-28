@@ -1,7 +1,8 @@
 # crontext
 > IN DEVELOPMENT: a task scheduler, for daily motivational texts
+[![Known Vulnerabilities](https://snyk.io//test/github/horeilly1101/crontext/badge.svg?targetFile=requirements.txt)](https://snyk.io//test/github/horeilly1101/crontext?targetFile=requirements.txt)
 
-Crontext is a small-scale daily text message service. Choose a friend and send them a good morning text every day.
+Crontext is a lightweight daily text message service. Choose a friend and send them a text every morning.
 
 ## Deploy
 
@@ -27,7 +28,7 @@ as necessary. (Most importantly, make sure to set the correct database URL.)
 
 - Install the dependencies `pip install -r requirements.txt`.
 
-- Run the server `python3 run_dev.py`.
+- Run the server `python3 run_local.py`.
 
 - Open up `http://localhost:6091` in the browser and enjoy!
 
